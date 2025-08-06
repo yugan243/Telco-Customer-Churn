@@ -379,3 +379,14 @@ class KMeansClusterer(BaseEstimator, TransformerMixin):
         X_copy['Cluster'] = cluster_labels
         
         return X_copy
+
+# New custom transformer to drop columns while preserving DataFrame format
+class FeatureDropper(BaseEstimator, TransformerMixin):
+    def __init__(self, columns_to_drop):
+        self.columns_to_drop = columns_to_drop
+    def fit(self, X, y=None):
+        return self
+    def transform(self, X):
+        X_copy = X.copy()
+        X_copy = X_copy.drop(columns=self.columns_to_drop, errors='ignore')
+        return X_copy
